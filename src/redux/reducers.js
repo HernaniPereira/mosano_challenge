@@ -20,11 +20,7 @@ function membersReducer(state = initialState, action) {
   switch (action.type) {
     case GET_MEMBERS:
       return { ...state, members: action.payload, loading: false };
-    case GET_DETAILS:
-      return {
-        ...state,
-        member: state.members.filter((item) => item.id == action.payload),
-      };
+
     case POST_MEMBER:
       let { member } = action.data;
       const members = [member, ...state.members];

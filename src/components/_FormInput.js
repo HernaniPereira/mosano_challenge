@@ -1,17 +1,15 @@
 import React from "react";
+import { useController, useFormContext } from "react-hook-form";
 import { Input } from "./_Input";
 import PropTypes from "prop-types";
-import { useController, useFormContext } from "react-hook-form";
 
-const ControlledInput = (props) => {
+const ControlledInput = React.forwardRef((props, forwardedRef) => {
   const { name, rules, defaultValue = "", ...inputProps } = props;
 
   const formContext = useFormContext();
-  const { control, errors } = formContext;
-
+  const { control } = formContext;
+  const errors = control._formState.errors;
   const { field } = useController({ name, control, rules, defaultValue });
-
-  console.log("aqui", errors);
   return (
     <Input
       {...inputProps}
@@ -19,11 +17,12 @@ const ControlledInput = (props) => {
       onChangeText={field.onChange}
       onBlur={field.onBlur}
       value={field.value}
+      ref={forwardedRef}
     />
   );
-};
+});
 
-export const FormInput = (props) => {
+export const FormInput = React.forwardRef((props, forwardedRef) => {
   const { name, ...inputProps } = props;
   const formContext = useFormContext();
 
@@ -33,9 +32,12 @@ export const FormInput = (props) => {
       : "Form field must be a descendant of `FormProvider` as it uses `useFormContext`!";
     return <Input {...inputProps} error={errorMessage} editable={false} />;
   }
-  console.log(props);
-  return <ControlledInput {...props} />;
-};
+
+  return <ControlledInput {...props} ref={forwardedRef} />;
+});
+
+FormInput.displayName = "FormInput";
+ControlledInput.displayName = "ControlledInput";
 
 FormInput.propTypes = {
   name: PropTypes.string.isRequired,

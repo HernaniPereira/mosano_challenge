@@ -11,6 +11,7 @@ import FormInput from "../components/FormInput";
 import { useDispatch, useSelector } from "react-redux";
 import { editMember, showModal, hideModal } from "../redux/actions";
 import CustomModal from "../components/CustomModal";
+import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
 const EditMember = ({ route }) => {
   const dispatch = useDispatch();
@@ -41,67 +42,69 @@ const EditMember = ({ route }) => {
     dispatch(showModal());
   };
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <CustomModal
-            displayAlert={modal}
-            displayNegativeButton={false}
-            displayPosistiveButton={false}
-            alertTitleText={"Membro Editado"}
-            alertMessageText={"Membro editado com sucesso!"}
-            onPressCancelButton={() => {
-              dispatch(hideModal());
-              navigation.goBack();
-            }}
-          />
-          <FormInput label={"Nome"} onChangeText={setName} value={name} />
-          <FormInput label={"Cargo"} value={role} onChangeText={setRole} />
-          <FormInput
-            keyboardType={"numeric"}
-            label={"Idade"}
-            value={age}
-            onChangeText={setAge}
-          />
-          <FormInput label={"Tempo de empresa"} value={"Tempo de empresa"} />
-          <FormInput
-            label={"Projetos que participou"}
-            value={project}
-            onChangeText={setProject}
-          />
-          <FormInput
-            label={"URL da foto do membro"}
-            value={image}
-            onChangeText={setImage}
-          />
-
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "flex-end",
-              flex: 1,
-              alignItems: "stretch",
-              margin: 16,
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                padding: 16,
-                backgroundColor: "#1E22AA",
-                alignItems: "center",
+    <KeyboardAvoidingWrapper>
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
+            <CustomModal
+              displayAlert={modal}
+              displayNegativeButton={false}
+              displayPosistiveButton={false}
+              alertTitleText={"Membro Editado"}
+              alertMessageText={"Membro editado com sucesso!"}
+              onPressCancelButton={() => {
+                dispatch(hideModal());
+                navigation.goBack();
               }}
-              onPress={() => onSubmit()}
+            />
+            <FormInput label={"Nome"} onChangeText={setName} value={name} />
+            <FormInput label={"Cargo"} value={role} onChangeText={setRole} />
+            <FormInput
+              keyboardType={"numeric"}
+              label={"Idade"}
+              value={age}
+              onChangeText={setAge}
+            />
+            <FormInput label={"Tempo de empresa"} value={"Tempo de empresa"} />
+            <FormInput
+              label={"Projetos que participou"}
+              value={project}
+              onChangeText={setProject}
+            />
+            <FormInput
+              label={"URL da foto do membro"}
+              value={image}
+              onChangeText={setImage}
+            />
+
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "flex-end",
+                flex: 1,
+                alignItems: "stretch",
+                margin: 16,
+              }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "700", letterSpacing: 1 }}
+              <TouchableOpacity
+                style={{
+                  padding: 16,
+                  backgroundColor: "#1E22AA",
+                  alignItems: "center",
+                }}
+                onPress={() => onSubmit()}
               >
-                Salvar
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{ color: "#fff", fontWeight: "700", letterSpacing: 1 }}
+                >
+                  Salvar
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingWrapper>
   );
 };
 

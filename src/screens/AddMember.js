@@ -7,31 +7,43 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
-import { FormProvider, useForm } from "react-hook-form";
-import FormInput from "../components/FormInput";
+//import FormInput from "../components/FormInput";
 import { useDispatch, useSelector } from "react-redux";
 import { postMember, showModal, hideModal } from "../redux/actions";
 import CustomModal from "../components/CustomModal";
+import { FormProvider, useForm } from "react-hook-form";
+import { FormInput } from "../components/_FormInput";
+import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
 
-const MEMBER_FIELDS = { name: "name", job: "job" };
-
+const MEMBER_FIELDS = {
+  name: "name",
+  age: "age",
+  job: "job",
+  project: "project",
+  image: "image",
+};
 const AddMember = ({ navigation }) => {
   const { modal } = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
+  /*  const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [compTime, setCompTime] = useState("");
   const [project, setProject] = useState("");
   const [age, setAge] = useState("");
   const [image, setImage] = useState(
     "https://mosano.eu/static/b15c5b4f8122455228ea71dfaec36d31/0a9c8/12e272b0-7538-4595-a3fd-2680bef420fe_rsousa.jpg"
-  );
+  ); */
 
   const formMethods = useForm();
-  console.log("modal", modal);
+
   const onSubmit = (form) => {
+    dispatch(postMember(form));
+    dispatch(showModal());
+  };
+  /*  const onSubmit = (form) => {
     const data = {
       name: name,
       age: age,
@@ -50,13 +62,12 @@ const AddMember = ({ navigation }) => {
       })
     );
     dispatch(showModal());
-  };
-  const onErrors = (errors) => {
-    console.log(errors);
-  };
+  }; */
+
+  const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 0;
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+    <KeyboardAvoidingWrapper>
+      <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <CustomModal
             displayAlert={modal}
@@ -74,33 +85,48 @@ const AddMember = ({ navigation }) => {
               Adicionar membro
             </Text>
           </View>
-          <View>
-            <FormInput label="Nome" placeHolder="Nome" onChangeText={setName} />
+
+          <FormProvider {...formMethods}>
             <FormInput
+              name={MEMBER_FIELDS.name}
+              label="Nome"
+              placeholder="Nome"
+              rules={{ required: "Nome is required!" }}
+            />
+            <FormInput
+              name={MEMBER_FIELDS.job}
               label="Cargo"
-              placeHolder="Cargo"
-              onChangeText={setRole}
+              placeholder="Cargo"
+              rules={{
+                required: "Job is required!",
+              }}
             />
             <FormInput
-              label="Tempo de empresa"
-              placeHolder="Tempo de empresa"
-              onChangeText={setCompTime}
-            />
-            <FormInput
+              name={MEMBER_FIELDS.age}
               label="Idade"
-              placeHolder="Idade"
-              onChangeText={setAge}
+              placeholder="Idade"
+              rules={{
+                required: "Age is required!",
+              }}
             />
             <FormInput
-              label="Projetos que participou"
-              placeHolder="Projetos que participou"
-              onChangeText={setProject}
+              name={MEMBER_FIELDS.project}
+              label="Projectos em que participou"
+              placeholder="Projetos"
+              rules={{
+                required: "Projects is required!",
+              }}
             />
             <FormInput
+              name={MEMBER_FIELDS.image}
               label="Url da foto do membro"
-              placeHolder="Url da foto do membro"
+              placeholder={"Url"}
+              rules={{
+                required: "URL is required!",
+              }}
             />
-          </View>
+          </FormProvider>
+
           <View
             style={{
               alignItems: "center",
@@ -126,27 +152,30 @@ const AddMember = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </KeyboardAvoidingWrapper>
   );
   return (
     <View>
-      <FormProvider {...formMethods}>
+      <View>
+        <FormInput label="Nome" placeHolder="Nome" onChangeText={setName} />
+        <FormInput label="Cargo" placeHolder="Cargo" onChangeText={setRole} />
         <FormInput
-          name={MEMBER_FIELDS.name}
-          label="name"
-          rules={{ required: "Username is required!" }}
+          label="Tempo de empresa"
+          placeHolder="Tempo de empresa"
+          onChangeText={setCompTime}
+        />
+        <FormInput label="Idade" placeHolder="Idade" onChangeText={setAge} />
+        <FormInput
+          label="Projetos que participou"
+          placeHolder="Projetos que participou"
+          onChangeText={setProject}
         />
         <FormInput
-          name={MEMBER_FIELDS.job}
-          label="job"
-          rules={{ required: "Username is required!" }}
+          label="Url da foto do membro"
+          placeHolder="Url da foto do membro"
         />
-      </FormProvider>
-      <Button
-        title="Login"
-        onPress={formMethods.handleSubmit(onSubmit, onErrors)}
-      />
+      </View>
     </View>
   );
 };

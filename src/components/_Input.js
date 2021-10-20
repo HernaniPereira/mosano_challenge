@@ -1,22 +1,26 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
-const Input = ({ label, error, ...textInputProps }) => {
+import { Text, View, TextInput, StyleSheet } from "react-native";
+
+export const Input = React.forwardRef((props, forwardedRef) => {
+  const { label, placeHolder, error, ...textInputProps } = props;
+
   const isError = Boolean(error);
   return (
-    <View style={{ marginStart: 16, marginEnd: 16, marginTop: 20 }}>
-      <Text style={styles.title}>{label}</Text>
+    <View style={{ marginStart: 16, marginEnd: 16 }}>
+      {Boolean(label) && <Text style={styles.title}> {label}</Text>}
       <TextInput
+        placeHolder={placeHolder}
         style={{ borderWidth: 1, height: 40, marginTop: 8, padding: 8 }}
         {...textInputProps}
+        ref={forwardedRef}
       />
       {isError && <Text>{error}</Text>}
+      <Text></Text>
     </View>
   );
-};
-
-export default Input;
+});
 
 const styles = StyleSheet.create({
   title: {
@@ -24,8 +28,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+Input.displayName = "Input";
 
 Input.propTypes = {
   label: PropTypes.string,
+  placeHolder: PropTypes.string,
   error: PropTypes.string,
 };

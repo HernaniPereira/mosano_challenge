@@ -1,30 +1,18 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { detailsMember } from "../redux/actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import { deleteMember } from "../redux/actions";
 
 const MemberDetail = ({ route, navigation }) => {
-  const { member } = useSelector((state) => state.membersReducer);
-  const id = 4;
   const dispatch = useDispatch();
   const { item } = route.params;
-
-  const getMember = (id) => dispatch(detailsMember(id));
-
-  useEffect(() => {
-    getMember(id);
-  }, []);
 
   const onDelete = () => {
     dispatch(deleteMember(item.id));
   };
-
-  if (member === "undefined") {
-    return <View></View>;
-  }
 
   return (
     <View style={{ flex: 1 }}>

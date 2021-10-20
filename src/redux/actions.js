@@ -100,13 +100,6 @@ export const deleteMember = (id) => {
   };
 };
 
-export const detailsMember = (id) => (dispatch) => {
-  dispatch({
-    type: GET_DETAILS,
-    payload: id,
-  });
-};
-
 export const login = (data) => (dispatch) => {
   if (data.username === "Admin" || data.password === "Admin") {
     saveLogin(data.username);
