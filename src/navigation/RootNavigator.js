@@ -6,13 +6,15 @@ import Home from "../screens/Home";
 import AddMember from "../screens/AddMember";
 import { Image } from "react-native";
 import MemberDetail from "../screens/MemberDetail";
+import EditMember from "../screens/EditMember";
+import DrawerContent from "../components/DrawerContent";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const DrawerNavigator = ({ navigation }) => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen
         name="Home"
         component={Home}
@@ -37,51 +39,67 @@ const DrawerNavigator = ({ navigation }) => {
 
 const RootNavigator = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Members"
-          component={DrawerNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MemberDetail"
-          component={MemberDetail}
-          options={{
-            headerTitle: () => (
-              <Image
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  resizeMode: "contain",
-                }}
-                source={require("../../assets/Logo.png")}
-              />
-            ),
-            headerTitleAlign: "center",
-          }}
-        />
-        <Stack.Screen
-          name="AddMember"
-          component={AddMember}
-          options={{
-            headerTitle: () => (
-              <Image
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  resizeMode: "contain",
-                }}
-                source={require("../../assets/Logo.png")}
-              />
-            ),
-            headerTitleAlign: "center",
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Members"
+        component={DrawerNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MemberDetail"
+        component={MemberDetail}
+        options={{
+          headerTitle: () => (
+            <Image
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../../assets/Logo.png")}
+            />
+          ),
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="AddMember"
+        component={AddMember}
+        options={{
+          headerTitle: () => (
+            <Image
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../../assets/Logo.png")}
+            />
+          ),
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="EditMember"
+        component={EditMember}
+        options={{
+          headerTitle: () => (
+            <Image
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../../assets/Logo.png")}
+            />
+          ),
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack.Navigator>
   );
 };
 

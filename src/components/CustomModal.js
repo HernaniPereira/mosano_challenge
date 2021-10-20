@@ -15,6 +15,10 @@ const CustomModal = ({
   onPressPositiveButton,
   onPressNegativeButton,
   onPressCancelButton,
+  displayNegativeButton = true,
+  displayPosistiveButton = true,
+  alertTitleText = "Excluir membro",
+  alertMessageText = "Tem a certeza que deseja excluir este membro?",
 }) => {
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
@@ -30,7 +34,6 @@ const CustomModal = ({
   const onCancelButtonPress = () => {
     onPressCancelButton();
   };
-  console.log("custom modal", showModal);
   return (
     <Modal visible={showModal} transparent={true} animationType={"fade"}>
       <View style={styles.mainOuterComponent}>
@@ -44,7 +47,7 @@ const CustomModal = ({
                 flexDirection: "row",
               }}
             >
-              <Text style={styles.textTitle}>Excluir membro</Text>
+              <Text style={styles.textTitle}>{alertTitleText}</Text>
               <TouchableOpacity onPress={() => onCancelButtonPress()}>
                 <MaterialIcons
                   color={"#0C0D44"}
@@ -56,23 +59,26 @@ const CustomModal = ({
             </View>
           </View>
           <View style={styles.middle}>
-            <Text style={styles.alertMessageTextStyle}>
-              Tem a certeza que deseja excluir este membro?
-            </Text>
+            <Text style={styles.alertMessageTextStyle}>{alertMessageText}</Text>
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity
-              style={styles.cancel}
-              onPress={() => onNegativeButtonPress()}
-            >
-              <Text style={styles.cancelText}>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.action}
-              onPress={() => onPositiveButtonPress()}
-            >
-              <Text style={styles.actionText}>Excluir</Text>
-            </TouchableOpacity>
+            {displayNegativeButton && (
+              <TouchableOpacity
+                style={styles.cancel}
+                onPress={() => onNegativeButtonPress()}
+              >
+                <Text style={styles.cancelText}>Cancelar</Text>
+              </TouchableOpacity>
+            )}
+
+            {displayPosistiveButton && (
+              <TouchableOpacity
+                style={styles.action}
+                onPress={() => onPositiveButtonPress()}
+              >
+                <Text style={styles.actionText}>Excluir</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
@@ -85,6 +91,10 @@ CustomModal.propTypes = {
   onPressPositiveButton: PropTypes.func,
   onPressNegativeButton: PropTypes.func,
   onPressCancelButton: PropTypes.func,
+  displayNegativeButton: PropTypes.bool,
+  displayPosistiveButton: PropTypes.bool,
+  alertTitleText: PropTypes.string,
+  alertMessageText: PropTypes.string,
 };
 
 export default CustomModal;

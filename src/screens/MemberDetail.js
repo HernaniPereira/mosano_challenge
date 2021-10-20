@@ -102,7 +102,9 @@ const MemberDetail = ({ route, navigation }) => {
               backgroundColor: "#1E22AA",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("EditMember", { item: item })}
+            >
               <View
                 style={{
                   flexDirection: "row",

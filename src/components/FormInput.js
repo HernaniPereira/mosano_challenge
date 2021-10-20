@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 
 const FormInput = ({
@@ -7,6 +7,7 @@ const FormInput = ({
   onChangeText,
   placeHolder,
   secureTextEntry,
+  keyboardType = "default",
 }) => {
   return (
     <View style={{ marginStart: 16, marginEnd: 16, marginTop: 20 }}>
@@ -14,6 +15,7 @@ const FormInput = ({
       <TextInput
         style={{ borderWidth: 1, height: 40, marginTop: 8, padding: 8 }}
         secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
         placeholder={placeHolder}
         autoCorrect={false}
         value={value}

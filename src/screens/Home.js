@@ -6,9 +6,10 @@ import { getMembers } from "../redux/actions";
 import { MaterialIcons } from "@expo/vector-icons";
 import CustomModal from "../components/CustomModal";
 import { deleteMember } from "../redux/actions";
+import LottieView from "lottie-react-native";
 
 const Home = ({ navigation }) => {
-  const { members } = useSelector((state) => state.membersReducer);
+  const { members, loading } = useSelector((state) => state.membersReducer);
   const dispatch = useDispatch();
   const fetchMembers = () => dispatch(getMembers());
   const [showModal, setShowModal] = useState(false);
@@ -64,7 +65,7 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ marginStart: 12 }}
-            onPress={() => alert("edit")}
+            onPress={() => navigation.navigate("EditMember", { item: item })}
           >
             <MaterialIcons color={"#1E22AA"} size={30} name="edit" />
           </TouchableOpacity>
@@ -85,7 +86,7 @@ const Home = ({ navigation }) => {
           marginBottom: 30,
         }}
       >
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <Text style={{ letterSpacing: 1, fontWeight: "bold", fontSize: 25 }}>
             MOSANO
           </Text>
@@ -111,6 +112,11 @@ const Home = ({ navigation }) => {
       </View>
     );
   };
+  if (loading) {
+    return (
+      <LottieView source={require("../../assets/loading.json")} autoPlay loop />
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
       <CustomModal

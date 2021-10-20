@@ -11,12 +11,13 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import FormInput from "../components/FormInput";
 import { useDispatch, useSelector } from "react-redux";
-import { postMember } from "../redux/actions";
+import { postMember, showModal, hideModal } from "../redux/actions";
+import CustomModal from "../components/CustomModal";
 
 const MEMBER_FIELDS = { name: "name", job: "job" };
 
-const AddMember = () => {
-  const { members } = useSelector((state) => state.membersReducer);
+const AddMember = ({ navigation }) => {
+  const { modal } = useSelector((state) => state.modalReducer);
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
@@ -29,7 +30,7 @@ const AddMember = () => {
   );
 
   const formMethods = useForm();
-
+  console.log("modal", modal);
   const onSubmit = (form) => {
     const data = {
       name: name,
@@ -48,6 +49,7 @@ const AddMember = () => {
           "https://mosano.eu/static/b15c5b4f8122455228ea71dfaec36d31/0a9c8/12e272b0-7538-4595-a3fd-2680bef420fe_rsousa.jpg",
       })
     );
+    dispatch(showModal());
   };
   const onErrors = (errors) => {
     console.log(errors);
@@ -56,6 +58,17 @@ const AddMember = () => {
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
+          <CustomModal
+            displayAlert={modal}
+            displayNegativeButton={false}
+            displayPosistiveButton={false}
+            alertTitleText={"Membro adicionado"}
+            alertMessageText={"Membro adcionado com sucesso!"}
+            onPressCancelButton={() => {
+              dispatch(hideModal());
+              navigation.goBack();
+            }}
+          />
           <View style={{ alignItems: "center", margin: 32 }}>
             <Text style={{ fontWeight: "700", fontSize: 20 }}>
               Adicionar membro
@@ -74,8 +87,7 @@ const AddMember = () => {
               onChangeText={setCompTime}
             />
             <FormInput
-              label="
-              Idade"
+              label="Idade"
               placeHolder="Idade"
               onChangeText={setAge}
             />
